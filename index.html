@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>YKS Edebiyat Kartları</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <style>
+        :root { --primary: #6366f1; --secondary: #a855f7; --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; touch-action: none; }
+        .header { padding: 15px; text-align: center; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .card-container { position: relative; flex: 1; display: flex; justify-content: center; align-items: center; perspective: 1000px; padding: 20px; }
+        .card { position: absolute; width: 90%; max-width: 350px; height: 400px; background: var(--card-bg); border-radius: 24px; padding: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.3s ease-out, opacity 0.3s; border: 1px solid rgba(255,255,255,0.1); }
+        .card h2 { font-size: 1.4rem; margin-bottom: 15px; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 5px; }
+        .card p { font-size: 1.1rem; line-height: 1.5; }
+        .nav-info { position: absolute; bottom: 20px; width: 100%; text-align: center; font-size: 0.8rem; opacity: 0.6; }
+    </style>
+</head>
+<body>
+    <div class="header"><h3>YKS Edebiyat / Sınav Kartları</h3></div>
+    <div class="card-container" id="container"></div>
+    <div class="nav-info">Geri gitmek için SAĞA, İlerlemek için SOLA kaydır</div>
+
+    <script>
+        const data = [
+            { title: "İlk Edebi Roman", desc: "İntibah - Namık Kemal" },
+            { title: "İlk Realist Roman", desc: "Araba Sevdası - Recaizade Mahmut Ekrem" },
+            { title: "İlk Köy Romanı", desc: "Karabibik - Nabizade Nazım" },
+            { title: "İlk Psikolojik Roman", desc: "Eylül - Mehmet Rauf" },
+            { title: "İlk Yerli Roman", desc: "Taaşşuk-ı Talat ve Fitnat - Şemsettin Sami" },
+            { title: "İlk Tiyatro (Batılı)", desc: "Şair Evlenmesi - Şinasi" },
+            { title: "İlk Köy Şiiri", desc: "Köylü Kızların Şarkısı - Nabizade Nazım" },
+            { title: "Şair-i Azam", desc: "Abdülhak Hamit Tarhan (Tanzimat 2. Dönem)" },
+            { title: "Yazı Makinesi", desc: "Ahmet Mithat Efendi (200'den fazla eser)" },
+            { title: "Türk Şairi", desc: "Mehmet Emin Yurdakul (Milli Edebiyat)" },
+            { title: "Kaldırımlar Şairi", desc: "Necip Fazıl Kısakürek" },
+            { title: "Bayrak Şairi", desc: "Arif Nihat Asya" },
+            { title: "Evler Şairi", desc: "Behçet Necatigil" },
+            { title: "İlk Tezkire", desc: "Mecalisün Nefais - Ali Şir Nevai" },
+            { title: "İlk Şehir Engizi", desc: "Şehrengiz-i Edirne - Zati" }
+        ];
+
+        let index = 0;
+        const container = document.getElementById('container');
+
+        function showCard() {
+            container.innerHTML = "";
+            const item = data[index];
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<h2>${item.title}</h2><p>${item.desc}</p><br><small>${index + 1} / ${data.length}</small>`;
+            container.appendChild(card);
+
+            const h = new Hammer(card);
+            h.on('swipeleft', () => { if(index < data.length - 1) { index++; showCard(); } });
+            h.on('swiperight', () => { if(index > 0) { index--; showCard(); } });
+        }
+        showCard();
+    </script>
+</body>
+</html>
